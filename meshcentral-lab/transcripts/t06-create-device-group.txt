@@ -1,0 +1,3 @@
+$ node control.js "meshes" then "createmesh Lab Machines (meshtype 2)" then "meshes"
+{"action":"createmesh","responseid":"lab2","result":"ok","meshid":"mesh//QULmJBUNl186SgWQq7FCsFE5ckL9brONEtJqvKQygGz1jcCRiQWIsCNqVJAY@sc6","links":{"user//labadmin":{"name":"labadmin","rights":4294967295}}}
+TIMEOUT, still waiting on: meshes,meshes

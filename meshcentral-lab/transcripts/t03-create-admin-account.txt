@@ -1,0 +1,5 @@
+$ node ./node_modules/meshcentral --createaccount labadmin --pass <throwaway-lab-password> --email lab@example.org
+Done.
+
+$ node ./node_modules/meshcentral --adminaccount labadmin
+Done. This command will only work if MeshCentral is stopped.

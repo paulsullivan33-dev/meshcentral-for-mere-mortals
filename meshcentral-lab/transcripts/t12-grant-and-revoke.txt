@@ -1,0 +1,43 @@
+Granting and revoking rights on a group (transcript t12)
+=============================================================
+Continues t11: labtech could see no devices. The admin grants
+labtech one right - remote control only - on the Lab Machines
+group. MeshCentral rights are a bitmask; the bits used by the
+official MeshCtrl tool include:
+
+  1 edit group      2 manage users     4 manage devices
+  8 remote control  16 agent console   32 server files
+  64 wake devices   128 notes          256 desktop view only
+  512 no terminal   1024 no files      32768 uninstall
+  4294967295 (0xFFFFFFFF) = every right there is
+
+Grant, sent by the admin:
+
+  {"action":"addmeshuser",
+   "meshid":"mesh//QULmJBUNl186SgWQq7FCsFE5ckL9brONEtJqvKQygGz1jcCRiQWIsCNqVJAY@sc6",
+   "userids":["user//labtech"], "meshadmin":8}
+
+  -> {"action":"addmeshuser","responseid":"lab1",
+      "result":"Added user labtech","success":1,"failed":0}
+
+labtech asks for the device list again:
+
+  {"action":"nodes"} ->
+  the Lab Machines group, with the online device inside it
+  (the same record as t09).
+
+Revoke, sent by the admin:
+
+  {"action":"removemeshuser",
+   "meshid":"mesh//QULmJBUNl186SgWQq7FCsFE5ckL9brONEtJqvKQygGz1jcCRiQWIsCNqVJAY@sc6",
+   "userid":"user//labtech"}
+
+  -> {"action":"removemeshuser","responseid":"lab1","result":"ok"}
+
+labtech asks once more:
+
+  {"action":"nodes","responseid":"lab1","nodes":{}}
+
+Empty again. The whole cycle - invisible, visible with one
+narrow right, invisible again - is the rights system working
+exactly as chapter 9 describes.

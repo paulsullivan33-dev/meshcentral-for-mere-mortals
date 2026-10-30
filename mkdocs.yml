@@ -1,0 +1,28 @@
+site_name: MeshCentral for Mere Mortals
+site_description: One web console that remote-controls every computer you own. Installing the MeshCentral server, naming it so its agents can trust it, adding machines, driving them from the browser, sharing access without sharing everything, and protecting the console like the master key it is, with the limits stated plainly.
+site_url: https://paulsullivan33-dev.github.io/meshcentral-for-mere-mortals/
+copyright: 'Part of <a href="https://paulsullivan33-dev.github.io/mere-mortals/">For Mere Mortals</a> · Text CC BY 4.0, code MIT'
+
+# Guides live at the repo root (nice for GitHub browsing).
+# The deploy workflow copies them into docs/ before building.
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - What MeshCentral Is: what-meshcentral-is.md
+  - The Moving Parts: the-moving-parts.md
+  - Installing MeshCentral: installing-meshcentral.md
+  - Your First Login: your-first-login.md
+  - Device Groups: device-groups.md
+  - Adding a Machine: adding-a-machine.md
+  - The Remote Desktop — Desktop, Terminal and Files: the-remote-desktop.md
+  - Proving It Works: proving-it-works.md
+  - Users and Rights: users-and-rights.md
+  - Protecting the Console: protecting-the-console.md
+  - Recipes: recipes.md
+  - The Neighbours: the-neighbours.md
+  - Limits: limits.md
+  - Troubleshooting: troubleshooting.md
+  - Glossary: glossary.md
+  - Writing Criteria: criteria.md

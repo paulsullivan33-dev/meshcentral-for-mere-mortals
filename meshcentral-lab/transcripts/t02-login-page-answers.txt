@@ -1,0 +1,13 @@
+$ curl -sk -o login-page.html -w "HTTP %{http_code}, %{size_download} bytes" https://127.0.0.1/
+HTTP 200, 75730 bytes
+$ grep -o "<title>[^<]*</title>" login-page.html
+<title>MeshCentral - Login</title>
+
+$ ss -tlnp | grep MeshCentral ports
+LISTEN *:443 (web, TLS)   LISTEN *:80 (redirect to HTTPS)
+
+Server log tail at this point:
+WARNING: Failed to sign "MeshCmd.exe": Error: Time stamp request timed out.
+WARNING: Failed to sign "MeshCmd64.exe": Error: Time stamp request timed out.
+WARNING: Failed to sign "MeshCmdARM64.exe": Error: Time stamp request timed out.
+Default agent files loaded.

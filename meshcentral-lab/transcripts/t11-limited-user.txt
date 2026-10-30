@@ -1,0 +1,33 @@
+A limited user sees nothing (transcript t11)
+==============================================
+The second account from t04 (labtech) was created as an ordinary
+user - never promoted, never given rights on the Lab Machines
+group.
+
+Step 1: its password had not been kept from the account-creation
+step, so the admin reset it through the control channel:
+
+  {"action":"changeuserpass", "userid":"user//labtech",
+   "pass":"<new throwaway lab password>", "removeMultiFactor":false}
+
+(The action sends no reply; the successful login below is the
+proof it worked. Admins being able to reset a user's password
+is itself a fact worth knowing - chapter 9.)
+
+Step 2: labtech logs in through the same flow as t05:
+
+$ curl -sk -c cookies-tech.txt -o login-tech.html -w "HTTP %{http_code}\n" \
+    -X POST https://127.0.0.1/login --data-urlencode "username=labtech" ...
+HTTP 200
+(login page returned the application page - logout links present)
+
+Step 3: ask for the device list with labtech's session:
+
+Sent:     {"action":"nodes"}
+Received: {"action":"nodes","responseid":"lab1","nodes":{}}
+
+An empty set. The machine from t09/t10 exists and is online;
+labtech simply has no rights to it, so to labtech it does not
+exist. Rights in MeshCentral are per device group: no grant on
+the group, no devices, no exceptions - exactly the behaviour
+chapter 9 teaches you to rely on.

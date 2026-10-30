@@ -1,0 +1,65 @@
+The agent would not connect: a certificate with no name (transcript t08)
+=========================================================================
+State at the start: server in LAN mode (no name set), "Lab Machines"
+group created, agent and meshagent.msh downloaded (t07). The .msh
+file from the LAN-mode server contains this line:
+
+  MeshServer=local
+
+"local" is an instruction a hand-run agent cannot follow, so the
+copy in the lab was edited to point at the real address:
+
+  MeshServer=wss://127.0.0.1:443
+
+The agent still would not connect:
+
+$ timeout 12 ./meshagent
+Connecting to: wss://127.0.0.1:443
+Mesh Server Connection Error [13]
+AutoRetry Connect in 1007 milliseconds
+Connecting to: wss://127.0.0.1:443
+Mesh Server Connection Error [12]
+AutoRetry Connect in 1518 milliseconds
+...
+
+The TCP connection opened (visible in ss) and died during setup.
+What certificate is the server actually presenting?
+
+$ echo | openssl s_client -connect 127.0.0.1:443 2>/dev/null | grep subject=
+subject=CN = un-configured
+
+And what does the agent pin? The ServerID line of the .msh is a
+SHA-384 fingerprint of the agent certificate's RSA public key
+(PKCS#1 DER form). Verified against the lab's own certificates:
+
+  agentserver-cert-public.crt  pkcs1 sha384  *** MATCH ***
+  webserver-cert-public.crt    pkcs1 sha384  959CC2A3C13AFB1CC193...
+  root-cert-public.crt         pkcs1 sha384  DD4A4F5F8E9E2AFD69B8...
+
+So the agent does proper certificate checking - against a server
+whose web certificate is literally named "un-configured" and has
+no usable name or address in it. Errors 13 and 12 are the agent
+refusing, in two dialects, to trust it.
+
+The fix: give the server its name in meshcentral-data/config.json
+(/etc/hosts on this machine is read-only, so an IP address is used
+as the name - MeshCentral accepts an IP address here):
+
+  "settings": { "cert": "127.0.0.1" }
+
+The old certificates were moved aside (old-certs/) so new ones
+would be generated, and the server restarted:
+
+MeshCentral v1.3.1, Hybrid (LAN + WAN) mode.
+MeshCentral HTTPS server running on 127.0.0.1:443.
+
+$ openssl x509 -in webserver-cert-public.crt -noout -subject -ext subjectAltName
+subject=CN = 127.0.0.1
+X509v3 Subject Alternative Name:
+    IP Address:127.0.0.1, DNS:127.0.0.1, URI:http://127.0.0.1/,
+    DNS:localhost, URI:http://localhost/, IP Address:127.0.0.1
+
+Lesson, stated plainly: MeshCentral's agents check the server's
+certificate properly. A server with no name gives them nothing
+they can check against, so they refuse. Name the server - a DNS
+name in real life, an IP address in this lab - from the start.

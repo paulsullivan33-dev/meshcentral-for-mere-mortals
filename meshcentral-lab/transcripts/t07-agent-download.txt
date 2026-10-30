@@ -1,0 +1,11 @@
+
+MeshName=Lab Machines
+MeshType=2
+MeshID=0x4142E624150D975F3A4A0590ABB142B051397242FD6EB38D12D26ABCA432806CF58DC091890588B0236A549018FAC73A
+ServerID=835C74BBEEA7A3EB22F15F2FD4940C40311187C149CD492518C0A9456C9370C8283EBBD5C44462A9037CD6FEB2AA3421
+MeshServer=local
+
+$ ls -la agent/; file agent/meshagent
+-rw-rw---- 1 root root 3757520 Oct 30 05:17 meshagent
+-rw-rw---- 1 root root   35915 Oct 30 05:17 meshagent.msh
+agent/meshagent: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.15, BuildID[sha1]=7c0c3a930fa0365d2bcaca64c69315271dc589e9, stripped

@@ -1,0 +1,27 @@
+A command run on the machine, through the console (transcript t10)
+=====================================================================
+With the device online (t09), the control channel sends it a
+command - the same path the console's Terminal tab uses - and
+the output comes back to the server:
+
+Sent:
+{"action":"runcommands",
+ "nodeids":["node//MABK8RyVpRiAqq$aHTyp3FqwUJZ812dPHCxfMDwE2d6stPcGIYe$HWKRUad2rrpm"],
+ "type":0,
+ "cmds":"echo MC-LAB-REMOTE-OK && hostname && whoami && uptime",
+ "runAsUser":0, "reply":true}
+
+Received:
+{"action":"msg", "type":"runcommands",
+ "result":"MC-LAB-REMOTE-OK\nhtch-runtime\nroot\n 05:46:19 up 15 min,  0 user,  load average: 0.48, 0.40, 0.43\n",
+ "nodeid":"node//MABK8RyVpRiAqq$aHTyp3FqwUJZ812dPHCxfMDwE2d6stPcGIYe$HWKRUad2rrpm"}
+
+Notes
+-----
+- runAsUser 0 runs the command as the agent's own account - here
+  root, because the lab agent runs as root. On a real install the
+  agent runs as a system service: powerful either way. Chapter 10
+  (Protecting the Console) exists because of this transcript.
+- The marker line (MC-LAB-REMOTE-OK) is the check: it could only
+  come back if the command truly ran on the agent's machine and
+  the answer truly travelled back through the server.

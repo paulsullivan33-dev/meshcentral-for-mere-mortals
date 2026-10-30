@@ -1,0 +1,32 @@
+Logging in through the real session flow (transcript t05)
+==========================================================
+MeshCentral 1.3.1 on https://127.0.0.1, server running.
+The password below is a throwaway lab value, labelled as such.
+
+$ curl -sk -c cookies.txt -o login-response.html -w "HTTP %{http_code}\n" \
+    -X POST https://127.0.0.1/login \
+    --data-urlencode "username=labadmin" \
+    --data-urlencode "password=<throwaway lab password>"
+HTTP 200
+
+A good login does not redirect. It answers 200 and returns the
+main application page itself:
+
+$ grep -c "labadmin" login-response.html
+(several matches - the page is rendered for the signed-in user)
+$ grep -c "logout" login-response.html
+(several matches - the signed-in page carries the logout links)
+
+The session is two cookies, saved by curl into cookies.txt:
+
+$ grep -o "^[^ ]*xid[^ ]*" cookies.txt   (names only, values not shown)
+xid
+xid.sig
+
+Notes
+-----
+- Wrong passwords answer 200 as well, but return the login page
+  again with "Invalid" on it (seen later in t11). The cookie jar
+  and the application page are what prove a login worked.
+- These two cookies are the key to every API call in the later
+  transcripts: the browser does the same thing, silently.

@@ -1,0 +1,11 @@
+$ whoami; hostname; uname -m; node --version; npm --version
+root
+htch-runtime
+x86_64
+v24.22.1
+10.9.4
+
+$ npm install meshcentral   (in ~/meshcentral-labwork/mc)
+added 181 packages
+$ node -e "print meshcentral version"
+1.3.1

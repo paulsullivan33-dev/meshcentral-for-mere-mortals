@@ -1,0 +1,40 @@
+The agent connects and the device appears (transcript t09)
+=============================================================
+Same downloads as t07, but taken again after the t08 fix, so the
+.msh carries the new certificate fingerprint and a real address:
+
+$ head -6 meshagent.msh
+MeshName=Lab Machines
+MeshType=2
+MeshID=0x4142E624150D975F3A4A0590ABB142B051397242FD6EB38D12D26ABCA432806CF58DC091890588B0236A549018FAC73A
+ServerID=FCBDE99A1E0D0BB70E0638FE9B129B19668003EFA1469AD23201B7978E8C6FAE42F60A0DF3B9D425FBD40AE3ACADDE5F
+MeshServer=wss://127.0.0.1:443/agent.ashx
+
+$ rm -f meshagent.db        (drop the state from the failed runs)
+$ ./meshagent
+Generating Certificate...
+Connecting (via proxy) to: wss://127.0.0.1:443/agent.ashx
+Mesh Server Connection Error [-1]
+AutoRetry Connect in 2369 milliseconds
+Connecting to: wss://127.0.0.1:443/agent.ashx
+Connected.
+Server verified meshcore... meshcore already running...
+
+(First attempt raced this sandbox's proxy settings and failed;
+the agent's own retry, direct, connected. Then the agent was
+left running in the background.)
+
+Proof from the server's side - the control channel answers
+{"action":"nodes"} with the device inside the Lab Machines
+group (fields trimmed to the ones that matter):
+
+  "_id":  "node//MABK8RyVpRiAqq$aHTyp3FqwUJZ812dPHCxfMDwE2d6stPcGIYe$HWKRUad2rrpm",
+  "name": "htch-runtime",            (this sandbox host's own name)
+  "agent": { "id": 6, "caps": 30, "root": true },
+  "host": "127.0.0.1",
+  "osdesc": "Ubuntu 24.04.5 LTS",
+  "conn": 1,                          (1 = connected)
+  "pwr": 1                            (1 = powered on)
+
+The server also wrote the connection into its event log
+(action "event", etype "node", for this node id).

@@ -1,0 +1,3 @@
+$ node ./node_modules/meshcentral --createaccount labtech --pass <throwaway-lab-password> --email tech@example.org
+Done.
+(no --adminaccount for labtech: this stays an ordinary account)
